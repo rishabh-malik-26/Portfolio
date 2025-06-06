@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - MyStore</title>
+    <!-- Exact copy of your CSS -->
+    <style>
+        /* Basic reset and global styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f5f5f5;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        /* Header styles */
+        header {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #3498db;
+        }
+        .search-form {
+            display: flex;
+            width: 60%;
+        }
+        .search-input {
+            flex-grow: 1;
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px 0 0 4px;
+            font-size: 16px;
+        }
+        .search-button {
+            padding: 10px 20px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 0 4px 4px 0;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .search-button:hover {
+            background-color: #2980b9;
+        }
+        nav {
+            margin-top: 20px;
+        }
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 20px;
+        }
+        nav a {
+            text-decoration: none;
+            color: #555;
+            font-weight: 500;
+        }
+        nav a:hover {
+            color: #3498db;
+        }
+        /* Section styles */
+        .section-title {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #2c3e50;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #3498db;
+        }
+        /* Footer */
+        footer {
+            background-color: white;
+            padding: 20px;
+            text-align: center;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            color: #7f8c8d;
+            font-size: 14px;
+        }
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .search-form {
+                width: 100%;
+            }
+            nav ul {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header (Matches your category page) -->
+        <header>
+            <div class="header-content">
+                <div class="logo">MyStore</div>
+                <form class="search-form" action="/search" method="GET">
+                    <input type="text" name="query" class="search-input" placeholder="Search for products...">
+                    <button type="submit" class="search-button">Search</button>
+                </form>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/categories">Categories</a></li>
+                    <li><a href="/deals">Deals</a></li>
+                    <li><a href="/cart">Cart</a></li>
+                    <li><a href="/login">Sign In</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <!-- Login Section -->
+        <main>
+            <section>
+                <h2 class="section-title">Login</h2>
+                <div style="background: white; padding: 20px; border-radius: 8px; margin-bottom: 40px;">
+                    <!-- Login Form -->
+                    <form id="loginForm" action="/login" method="POST">
+                        <div style="margin-bottom: 15px;">
+                            <label style="display: block; margin-bottom: 5px; font-weight: 500;">Username</label>
+                            <input type="text" name="Username" required style="width: 100%; padding: 10px 15px; border: 1px solid #ddd; border-radius: 4px; font-size: 16px;">
+                        </div>
+                        <div style="margin-bottom: 15px;">
+                            <label style="display: block; margin-bottom: 5px; font-weight: 500;">Password</label>
+                            <input type="password" name="password" required style="width: 100%; padding: 10px 15px; border: 1px solid #ddd; border-radius: 4px; font-size: 16px;">
+                        </div>
+                            {% if error %}
+                        <div style="color: red; margin-bottom: 15px; font-size: 14px;">
+                            {{ error }}
+                        </div>
+                        {% endif %}
+                        <button type="submit" class="search-button" style="margin-top: 10px;">Login</button>
+                        <div style="margin-top: 15px; font-size: 14px; text-align: center;">
+                            Don't have an account? 
+                            <a href="#" onclick="toggleForms()" style="color: #3498db; text-decoration: none;">Register</a>
+                        </div>
+                    </form>
+
+                    <!-- Register Form -->
+                    <form id="registerForm" action="/register" method="POST" style="display: none;">
+                        <div style="margin-bottom: 15px;">
+                            <label style="display: block; margin-bottom: 5px; font-weight: 500;">User Name</label>
+                            <input type="text" name="name" required style="width: 100%; padding: 10px 15px; border: 1px solid #ddd; border-radius: 4px; font-size: 16px;">
+                        </div>
+                        <div style="margin-bottom: 15px;">
+                            <label style="display: block; margin-bottom: 5px; font-weight: 500;">Email</label>
+                            <input type="email" name="email" required style="width: 100%; padding: 10px 15px; border: 1px solid #ddd; border-radius: 4px; font-size: 16px;">
+                        </div>
+                        <div style="margin-bottom: 15px;">
+                            <label style="display: block; margin-bottom: 5px; font-weight: 500;">Password</label>
+                            <input type="password" name="password" required style="width: 100%; padding: 10px 15px; border: 1px solid #ddd; border-radius: 4px; font-size: 16px;">
+                        </div>
+                        {% if success_message %}
+                        <div style="color: rgb(91, 255, 2); margin-bottom: 15px; font-size: 14px;">
+                            {{ success_message }}
+                        </div>
+                        {% endif %}
+                        <button type="submit" class="search-button" style="margin-top: 10px;">Register</button>
+                        <div style="margin-top: 15px; font-size: 14px; text-align: center;">
+                            Already have an account? 
+                            <a href="#" onclick="toggleForms()" style="color: #3498db; text-decoration: none;">Login</a>
+                        </div>
+                    </form>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer>
+            <p>&copy; 2025 MyStore. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <!-- Toggle Script -->
+    <script>
+        function toggleForms() {
+            const loginForm = document.getElementById('loginForm');
+            const registerForm = document.getElementById('registerForm');
+            loginForm.style.display = loginForm.style.display === 'none' ? 'block' : 'none';
+            registerForm.style.display = registerForm.style.display === 'none' ? 'block' : 'none';
+        }
+    </script>
+</body>
+</html>

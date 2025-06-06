@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Recommender</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+        }
+        .product-container {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .product-card {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            width: 30%;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        .product-card:hover {
+            transform: translateY(-5px);
+        }
+        .product-image {
+            width: 100%;
+            height: 200px;
+            background-color: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 10px;
+            border-radius: 4px;
+        }
+        .product-name {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .product-price {
+            font-size: 16px;
+            color: #e44d26;
+            margin-bottom: 10px;
+        }
+        .product-category {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 10px;
+        }
+        .product-description {
+            font-size: 14px;
+            color: #333;
+            margin-bottom: 15px;
+        }
+        .click-track {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 14px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        
+        @media (max-width: 768px) {
+            .product-container {
+                flex-direction: column;
+            }
+            .product-card {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Product Recommender</h1>
+    
+    <div class="product-container">
+        <!-- Product 1 -->
+        <div class="product-card" data-product-id="101" data-product-name="Wireless Earbuds Pro" data-product-price="129.99" data-product-category="Electronics">
+            <div class="product-image">Product Image 1</div>
+            <div class="product-name">Wireless Earbuds Pro</div>
+            <div class="product-price">$129.99</div>
+            <div class="product-category">Electronics</div>
+            <div class="product-description">High-quality wireless earbuds with noise cancellation and 24-hour battery life.</div>
+            <button class="click-track" data-product-id="{{ product.id }}" data-product-name="{{ product.name }}">View Product</button>
+        </div>
+        
+        <!-- Product 2 -->
+        <div class="product-card" data-product-id="102" data-product-name="Smart Fitness Watch" data-product-price="89.99" data-product-category="Wearable Technology">
+            <div class="product-image">Product Image 2</div>
+            <div class="product-name">Smart Fitness Watch</div>
+            <div class="product-price">$89.99</div>
+            <div class="product-category">Wearable Technology</div>
+            <div class="product-description">Track your fitness goals with heart rate monitoring, sleep tracking, and more.</div>
+            <button class="click-track">View Product</button>
+        </div>
+        
+        <!-- Product 3 -->
+        <div class="product-card" data-product-id="103" data-product-name="Portable Power Bank" data-product-price="49.99" data-product-category="Accessories">
+            <div class="product-image">Product Image 3</div>
+            <div class="product-name">Portable Power Bank</div>
+            <div class="product-price">$49.99</div>
+            <div class="product-category">Accessories</div>
+            <div class="product-description">20,000mAh capacity with fast charging for multiple devices on the go.</div>
+            <button class="click-track">View Product</button>
+        </div>
+    </div>
+
+
+<!-- js to track user clicks   -->
+    <script>
+    document.querySelectorAll('.click-track').forEach(button => {
+        button.addEventListener('click', function () {
+            const productDiv = this.closest('.product-card');
+            const productId = productDiv.getAttribute('data-product-id');
+            const productName = productDiv.getAttribute('data-product-name');
+
+            console.log('Click tracked:', productId, productName);  // Added for debugging
+            
+            fetch('/track-click', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    product_id: productId,
+                    product_name: productName
+                })
+            })
+            .then(response => console.log('Click tracking response:', response))
+            .catch(error => console.error('Click tracking error:', error));
+        });
+    });
+    </script>
+</body>
+</html>

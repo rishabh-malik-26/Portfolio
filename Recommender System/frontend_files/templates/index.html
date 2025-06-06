@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Recommendations  for {{user_name}}</title>
+    <style>
+        :root {
+            --primary: #4a6cfa;
+            --secondary: #f3f4f6;
+            --text: #333;
+            --light-text: #666;
+            --border: #e5e7eb;
+            --shadow: rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f9fafb;
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        header {
+            background-color: #fff;
+            box-shadow: 0 2px 10px var(--shadow);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .search-bar {
+            margin: 2rem 0;
+            display: flex;
+            gap: 1rem;
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--border);
+            border-radius: 0.5rem;
+            font-size: 1rem;
+        }
+
+        .search-btn {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background-color 0.2s;
+        }
+
+        .search-btn:hover {
+            background-color: #3a5bd9;
+        }
+
+        .filters {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .filter {
+            background-color: white;
+            border: 1px solid var(--border);
+            border-radius: 0.5rem;
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .filter:hover, .filter.active {
+            background-color: var(--secondary);
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .recommendations {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .recommendation-card {
+            background-color: white;
+            border-radius: 0.75rem;
+            overflow: hidden;
+            box-shadow: 0 4px 6px var(--shadow);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .recommendation-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px var(--shadow);
+        }
+
+        .card-image {
+            height: 180px;
+            width: 100%;
+            object-fit: cover;
+            background-color: #e2e8f0;
+        }
+
+        .card-content {
+            padding: 1.5rem;
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .card-description {
+            color: var(--light-text);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;  
+        }
+
+        .card-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .rating {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+            color: #f59e0b;
+        }
+
+        .category {
+            background-color: var(--secondary);
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.8rem;
+        }
+
+        .view-more {
+            text-align: center;
+            margin-top: 3rem;
+        }
+
+        .view-more-btn {
+            background-color: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            border-radius: 0.5rem;
+            padding: 0.75rem 2rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .view-more-btn:hover {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .user-preferences {
+            background-color: white;
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 6px var(--shadow);
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .preferences-form {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1rem;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .form-input, .form-select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--border);
+            border-radius: 0.5rem;
+            font-size: 1rem;
+        }
+
+        .save-btn {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            cursor: pointer;
+            font-weight: 600;
+            grid-column: 1 / -1;
+            width: max-content;
+            justify-self: end;
+            transition: background-color 0.2s;
+        }
+
+        .save-btn:hover {
+            background-color: #3a5bd9;
+        }
+
+        footer {
+            background-color: white;
+            padding: 2rem;
+            text-align: center;
+            margin-top: 3rem;
+            color: var(--light-text);
+            border-top: 1px solid var(--border);
+        }
+
+        @media (max-width: 768px) {
+            .recommendations {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            }
+
+            .preferences-form {
+                grid-template-columns: 1fr;
+            }
+
+            .container {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="7 10 12 15 17 10"></polyline>
+                <line x1="12" y1="15" x2="12" y2="3"></line>
+            </svg>
+            SmartRecommend
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="user-preferences">
+            <h2 class="section-title">Your Preferences</h2>
+            <form class="preferences-form">
+                <div class="form-group">
+                    <label class="form-label" for="category">Preferred Category for {{user_name}} </label>
+                    <select class="form-select" id="category">
+                        <option value="">All Categories</option>
+                        <option value="books">Books</option>
+                        <option value="movies">Movies</option>
+                        <option value="music">Music</option>
+                        <option value="products">Products</option>
+                    </select>
+                </div>
+<div>
+    <form method="POST" action="/">
+        <label for="username">Enter your name:</label>
+        <input type="text" id="username" name="username">
+        <input type="submit" value="Submit">
+    </form>
+
+</div>
+                <div class="form-group">
+                    <label class="form-label" for="price-range">Price Range</label>
+                    <select class="form-select" id="price-range">
+                        <option value="">Any Price</option>
+                        <option value="budget">Budget</option>
+                        <option value="mid">Mid-range</option>
+                        <option value="premium">Premium</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="rating">Minimum Rating</label>
+                    <select class="form-select" id="rating">
+                        <option value="1">1+ Stars</option>
+                        <option value="2">2+ Stars</option>
+                        <option value="3">3+ Stars</option>
+                        <option value="4" selected>4+ Stars</option>
+                        <option value="5">5 Stars</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="sort">Sort By</label>
+                    <select class="form-select" id="sort">
+                        <option value="relevance">Relevance</option>
+                        <option value="rating">Rating</option>
+                        <option value="newest">Newest</option>
+                        <option value="price-low">Price: Low to High</option>
+                        <option value="price-high">Price: High to Low</option>
+                    </select>
+                </div>
+
+                <button type="button" class="save-btn">Update Preferences</button>
+            </form>
+        </div>
+
+        <div class="search-bar">
+            <input type="text" class="search-input" placeholder="Search for recommendations...">
+            <button class="search-btn">Search</button>
+        </div>
+
+        <div class="filters">
+            <div class="filter active">All</div>
+            <div class="filter">Popular</div>
+            <div class="filter">New Arrivals</div>
+            <div class="filter">Top Rated</div>
+            <div class="filter">Personalized</div>
+        </div>
+
+        <h2 class="section-title">Recommended For You</h2>
+
+        <div class="recommendations">
+            <!-- Recommendation Card 1 -->
+            <div class="recommendation-card">
+                <img src="/api/placeholder/400/320" alt="Product image" class="card-image">
+                <div class="card-content">
+                    <div class="category">Books</div>
+                    <h3 class="card-title">The Silent Echo</h3>
+                    <p class="card-description">An immersive mystery thriller that will keep you on the edge of your seat from beginning to end.</p>
+                    <div class="card-meta">
+                        <div class="rating">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                            </svg>
+                            4.8
+                        </div>
+                        <span>$18.99</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recommendation Card 2 -->
+            <div class="recommendation-card">
+                <img src="/api/placeholder/400/320" alt="Product image" class="card-image">
+                <div class="card-content">
+                    <div class="category">Movies</div>
+                    <h3 class="card-title">Eternal Horizons</h3>
+                    <p class="card-description">A visually stunning sci-fi adventure with an emotional core that resonates long after the credits roll.</p>
+                    <div class="card-meta">
+                        <div class="rating">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                            </svg>
+                            4.7
+                        </div>
+                        <span>$12.99</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recommendation Card 3 -->
+            <div class="recommendation-card">
+                <img src="/api/placeholder/400/320" alt="Product image" class="card-image">
+                <div class="card-content">
+                    <div class="category">Music</div>
+                    <h3 class="card-title">Midnight Symphony</h3>
+                    <p class="card-description">An eclectic album that blends classical orchestration with modern electronic elements.</p>
+                    <div class="card-meta">
+                        <div class="rating">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                            </svg>
+                            5.0
+                        </div>
+                        <span>$9.99</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recommendation Card 4 -->
+            <div class="recommendation-card">
+                <img src="/api/placeholder/400/320" alt="Product image" class="card-image">
+                <div class="card-content">
+                    <div class="category">Products</div>
+                    <h3 class="card-title">SmartBrew Coffee Maker</h3>
+                    <p class="card-description">Precision temperature control and brewing options for the perfect cup every time.</p>
+                    <div class="card-meta">
+                        <div class="rating">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                            </svg>
+                            4.6
+                        </div>
+                        <span>$129.99</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recommendation Card 5 -->
+            <div class="recommendation-card">
+                <img src="/api/placeholder/400/320" alt="Product image" class="card-image">
+                <div class="card-content">
+                    <div class="category">Books</div>
+                    <h3 class="card-title">Digital Mindfulness</h3>
+                    <p class="card-description">A practical guide to finding balance in our increasingly connected world.</p>
+                    <div class="card-meta">
+                        <div class="rating">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                            </svg>
+                            4.5
+                        </div>
+                        <span>$15.99</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recommendation Card 6 -->
+            <div class="recommendation-card">
+                <img src="/api/placeholder/400/320" alt="Product image" class="card-image">
+                <div class="card-content">
+                    <div class="category">Products</div>
+                    <h3 class="card-title">EchoFit Wireless Earbuds</h3>
+                    <p class="card-description">Crystal clear audio with noise-cancelling technology and 30-hour battery life.</p>
+                    <div class="card-meta">
+                        <div class="rating">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                            </svg>
+                            4.9
+                        </div>
+                        <span>$89.99</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="view-more">
+            <button class="view-more-btn">Load More Recommendations</button>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2025 SmartRecommend - Your Personalized Recommendation Engine</p>
+    </footer>
+
+    <script>
+        // Sample JavaScript for demonstration purposes
+        document.addEventListener('DOMContentLoaded', function() {
+            // Filter selection
+            const filters = document.querySelectorAll('.filter');
+            filters.forEach(filter => {
+                filter.addEventListener('click', function() {
+                    filters.forEach(f => f.classList.remove('active'));
+                    this.classList.add('active');
+                    // Here you would typically fetch new recommendations based on the filter
+                    console.log('Filter selected:', this.textContent);
+                });
+            });
+
+            // Search functionality
+            const searchBtn = document.querySelector('.search-btn');
+            const searchInput = document.querySelector('.search-input');
+
+            searchBtn.addEventListener('click', function() {
+                const query = searchInput.value.trim();
+                if (query) {
+                    // Here you would typically send the search query to your backend
+                    console.log('Searching for:', query);
+                    // For demo purposes, just clear the input
+                    searchInput.value = '';
+                }
+            });
+
+            // Preference update
+            const saveBtn = document.querySelector('.save-btn');
+            saveBtn.addEventListener('click', function() {
+                const category = document.getElementById('category').value;
+                const priceRange = document.getElementById('price-range').value;
+                const rating = document.getElementById('rating').value;
+                const sort = document.getElementById('sort').value;
+
+                // Here you would typically send these preferences to your backend
+                console.log('Preferences updated:', { category, priceRange, rating, sort });
+
+                // Show a confirmation message (in a real app, you might use a toast notification)
+                alert('Your preferences have been updated!');
+            });
+
+            // Load more functionality
+            const loadMoreBtn = document.querySelector('.view-more-btn');
+            loadMoreBtn.addEventListener('click', function() {
+                // Here you would typically fetch more recommendations
+                console.log('Loading more recommendations');
+                // For demo purposes, just disable the button temporarily
+                this.disabled = true;
+                this.textContent = 'Loading...';
+
+                setTimeout(() => {
+                    this.disabled = false;
+                    this.textContent = 'Load More Recommendations';
+                }, 1500);
+            });
+        });
+    </script>
+</body>
+</html>

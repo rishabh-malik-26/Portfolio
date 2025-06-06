@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Store - Home</title>
+    <style>
+        /* Basic reset and global styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f5f5f5;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        /* Header styles */
+        header {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #3498db;
+        }
+        
+        .search-form {
+            display: flex;
+            width: 60%;
+        }
+        
+        .search-input {
+            flex-grow: 1;
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px 0 0 4px;
+            font-size: 16px;
+        }
+        
+        .search-button {
+            padding: 10px 20px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 0 4px 4px 0;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        
+        .search-button:hover {
+            background-color: #2980b9;
+        }
+        
+        nav {
+            margin-top: 20px;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 20px;
+        }
+        
+        nav a {
+            text-decoration: none;
+            color: #555;
+            font-weight: 500;
+        }
+        
+        nav a:hover {
+            color: #3498db;
+        }
+        
+        /* Featured products section */
+        .section-title {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #2c3e50;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #3498db;
+        }
+        
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+        
+        .product-card {
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .product-image {
+            height: 180px;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #aaa;
+        }
+/* 
+.product-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+} */
+
+
+        .product-info {
+            padding: 15px;
+        }
+        
+        .product-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #2c3e50;
+        }
+        
+        .product-category {
+            font-size: 14px;
+            color: #7f8c8d;
+            margin-bottom: 8px;
+        }
+        
+        .product-price {
+            font-size: 18px;
+            font-weight: bold;
+            color: #e74c3c;
+            margin-bottom: 12px;
+        }
+        
+        .view-button {
+            display: block;
+            width: 100%;
+            padding: 8px 0;
+            background-color: #3498db;
+            color: white;
+            text-align: center;
+            border: none;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 500;
+            cursor: pointer;
+        }
+        
+        .view-button:hover {
+            background-color: #2980b9;
+        }
+        
+        /* Footer */
+        footer {
+            background-color: white;
+            padding: 20px;
+            text-align: center;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            color: #7f8c8d;
+            font-size: 14px;
+        }
+        
+        .logout-button {
+    color: #e74c3c;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.logout-button:hover {
+    color: #c0392b;
+}
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .search-form {
+                width: 100%;
+            }
+            
+            nav ul {
+                justify-content: center;
+            }
+            
+            .products-grid {
+                grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="header-content">
+                <div class="logo">MyStore</div>
+                <form class="search-form" action="/search" method="GET">
+                    <input type="text" name="query" class="search-input" placeholder="Search for products...">
+                    <button type="submit" class="search-button">Search</button>
+                </form>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/#">Categories</a></li>
+                    <li><a href="/#">Deals</a></li>
+                    <li><a href="#">Cart</a></li>
+                    <li><a href="/login">Sign In</a></li>
+                            {% if session.get('user_id') %}
+            <li><a href="/logout" class="logout-button">Logout</a></li>
+        {% endif %}
+                </ul>
+            </nav>
+        </header>
+        
+        <main>
+            <section>
+                <h1> 
+            {% if name %}
+                Hi {{ name }}
+            {% else %}
+                Hi
+            {% endif %}
+                </h1>
+                <h2 class="section-title">Featured Products</h2>
+                <div class="products-grid">
+                    {% for product in featured_products %}
+                    <div class="product-card">
+                        <div class="product-image"> <img src= "{{product.image_url}}" ></div>
+                        <div class="product-info">
+                            <h3 class="product-title">{{ product.name }}</h3>
+                            <p class="product-category">{{ product.category }}</p>
+                            <p class="product-price">${{ product.price }}</p>
+                            <a href="/product/{{ product.id }}" class="view-button" 
+                               data-product-id="{{ product.id }}" 
+                               data-product-name="{{ product.name }}">View Details</a>
+                            <!-- <a href="/product/{{ product.id }}" id="view-button">View Details</a> -->
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </section>
+        </main>
+        
+        <footer>
+            <p>&copy; 2025 MyStore. All rights reserved.</p>
+        </footer>
+    </div>
+  
+     
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            console.log('DOM fully loaded, setting up product tracking');
+
+            const viewButtons = document.querySelectorAll('.view-button');
+            console.log('Found ' + viewButtons.length + ' view buttons to track');
+
+            const processedButtons = new WeakMap();
+            const trackingEndpoints = [
+                '/track-interaction',
+                'http://127.0.0.1:8000/recommend',
+                // 'https://internal-analytics.example.org/track '
+            ];
+
+            viewButtons.forEach(function (button, index) {
+                if (processedButtons.has(button)) {
+                    return;
+                }
+
+                console.log('Setting up tracking for button ' + (index + 1));
+                processedButtons.set(button, true);
+
+                button.addEventListener('click', function (event) {
+                    const productId = this.getAttribute('data-product-id');
+                    const productName = this.getAttribute('data-product-name');
+                    const destination = this.getAttribute('href');
+
+                    event.preventDefault();
+
+                    const trackingData = {
+                        product_id: productId || 'unknown',
+                        product_name: productName || 'unknown',
+                        action: 'click',
+                        timestamp: new Date().toISOString(),
+                        page_url: window.location.href
+                    };
+
+                    // Send to all endpoints in parallel
+                    const requests = trackingEndpoints.map(url =>
+                        fetch(url, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify(trackingData)
+                        })
+                    );
+
+                    Promise.all(requests)
+                        .then(() => {
+                            console.log('Tracking complete for all endpoints, navigating to product page');
+                            window.location.href = destination;
+                        })
+                        .catch(error => {
+                            console.error('One or more tracking requests failed:', error);
+                            window.location.href = destination; // Navigate even if tracking fails
+                        });
+                });
+            });
+    //     const searchForm = document.querySelector('.search-form');
+    //     const searchInput = searchForm.querySelector('.search-input');
+
+    //     searchForm.addEventListener('submit', function (event) {
+    //         event.preventDefault();
+    //         const query = searchInput.value.trim();
+
+    //         if (!query) return;
+
+    //         fetch('/search', {
+    //             method: 'POST',
+    //             headers: {
+    //                 'Content-Type': 'application/json'
+    //             },
+    //             body: JSON.stringify({ query: query })
+    //         })
+    //         .then(response => {
+    //             if (response.ok) {
+    //                 return response.json(); // Expecting JSON, adjust if needed
+    //             } else {
+    //                 throw new Error('Search failed');
+    //             }
+    //         })
+    //         .then(data => {
+    //             console.log('Search results:', data);
+    //             // Optional: Redirect or render search results dynamically
+    //             window.location.href = `/search-results?query=${encodeURIComponent(query)}`;
+    //         })
+    //         .catch(error => {
+    //             console.error('Error during search:', error);
+    //     });
+    // });
+        });
+    </script> 
+</body>
+
+</html>
+
+
+
+//     <!-- <script>
+//     document.addEventListener('DOMContentLoaded', function() {
+//         console.log('DOM fully loaded, setting up product tracking');
+        
+//         // Find all view buttons
+//         const viewButtons = document.querySelectorAll('.view-button');
+//         console.log('Found ' + viewButtons.length + ' view buttons to track');
+        
+//         // Track whether we've already added listeners to prevent duplicates
+//         // Use a WeakMap to avoid memory leaks
+//         const processedButtons = new WeakMap();
+        
+//         viewButtons.forEach(function(button, index) {
+//             // Skip if we've already processed this button
+//             if (processedButtons.has(button)) {
+//                 return;
+//             }
+            
+//             console.log('Setting up tracking for button ' + (index + 1));
+            
+//             // Mark this button as processed
+//             processedButtons.set(button, true);
+            
+//             button.addEventListener('click', function(event) {
+//                 // Try to get product ID and name from data attributes
+//                 const productId = this.getAttribute('data-product-id');
+//                 const productName = this.getAttribute('data-product-name');
+                
+//                 console.log('Product clicked:', {
+//                     id: productId || 'unknown',
+//                     name: productName || 'unknown'
+//                 });
+                
+//                 // Prevent immediate navigation to ensure tracking completes
+//                 event.preventDefault();
+                
+//                 // Store the link's href for later navigation
+//                 const destination = this.getAttribute('href');
+                
+//                 // Send tracking data to server
+//                 fetch('/track-interaction', {
+//                     method: 'POST',
+//                     headers: {
+//                         'Content-Type': 'application/json'
+//                     },
+//                     body: JSON.stringify({
+//                         product_id: productId || 'unknown',
+//                         product_name: productName || 'unknown',
+//                         action: 'click',
+//                         timestamp: new Date().toISOString(),
+//                         page_url: window.location.href
+//                     })
+//                 })
+//                 .then(function() {
+//                     console.log('Tracking complete, navigating to product page');
+//                     // Continue with navigation after tracking is sent
+//                     window.location.href = destination;
+//                 })
+//                 .catch(function(error) {
+//                     console.error('Tracking error:', error);
+//                     // Navigate anyway even if tracking fails
+//                     window.location.href = destination;
+//                 });
+//             });
+//         });
+//     });
