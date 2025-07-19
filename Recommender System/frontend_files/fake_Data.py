@@ -7,8 +7,6 @@ logging.basicConfig(level= logging.INFO,
                     format="%(asctime)s — %(name)s — %(levelname)s — %(message)s")
 
 faker = Faker()
-# print (fake.password(length=10))
-# print(fake.name())
 
 
 try:
