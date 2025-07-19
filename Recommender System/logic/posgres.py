@@ -183,8 +183,6 @@ def image_thumbnail(details):
 #     dic = {'id':ids,'name':titles,'price':prices,'category':category_name}
 #     all_dics.append(dic)
 
-# print(all_dics)
-
 
 
 
