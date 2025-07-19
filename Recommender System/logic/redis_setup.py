@@ -76,56 +76,6 @@ def get_user_recommendations(user_id):
 
 
 
-id = "132f40ad-6a77-4218-8c74-5b1789c804e7"
 
-# store_bulk_user_recs({'id': 1560, 'score': 1.0})
-# id = 'id'
-print(get_user_recommendations(id))
-
-
-
-
-
-
-
-# import random
-
-# keys = r1.keys("*")
-
-
-# if keys:
-#     random_key = random.choice(keys)
-#     print(random_key)
-#     # your logic here
-# else:
-#     print("No keys found in Redis!")
-
-
-
-
-
-
-
-
-
-
-# # rec_ids = get_recommendations(1)
-# from posgres import db, ProductsDB
-
-# recommended_products = get_recommendations(1)
-# similar_products = []
-# product_db= ProductsDB(db)
-
-# for i in recommended_products:
-            
-#     recommended_product_id= i['id']
-#     details = product_db.get_product_details(recommended_product_id)
-#     title =  details[0][2]
-#     category = details[0][11]
-#     similar_titles = {'id':recommended_product_id,'name':title,'price':"11",'category':category}
-#     similar_products.append(similar_titles)
-
-
-# print(similar_products)
 
 
