@@ -177,7 +177,6 @@ def main():
 #         collection_name='products',
 #         points=[PointStruct(id=row['product_id'], vector=row['embedding'])]
 #     )
-# print(qd.count_vecs())
 
 
 
